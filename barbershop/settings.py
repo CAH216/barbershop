@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+
+import dj_database_url
 import environ
 from django.contrib import staticfiles
 
@@ -80,14 +82,7 @@ WSGI_APPLICATION = 'barbershop.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'barbershop',
-        'USER': 'postgres',
-        'PASSWORD': 'passer',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
+    'default': dj_database_url.config(default=env('DATABASE_URL'))
 }
 
 
@@ -156,3 +151,21 @@ AUTH_USER_MODEL = 'reservations.Barber'
 # Si vous avez besoin de redirection après connexion
 LOGIN_REDIRECT_URL = '/dashboard/'
 LOGOUT_REDIRECT_URL = '/'
+
+import sys
+import logging
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "stream": sys.stdout,
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "DEBUG",
+    },
+}
