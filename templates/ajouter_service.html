@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajouter un service - Elite Barbershop</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Background pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><g fill="%23d4af37" fill-opacity="0.05"><circle cx="30" cy="30" r="2"/></g></svg>');
+            z-index: -1;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #d4af37;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-menu a:hover {
+            color: #d4af37;
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: #d4af37;
+            transition: width 0.3s ease;
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        /* Main container */
+        .main-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 2rem;
+        }
+
+        /* Row and column layout */
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -15px;
+        }
+
+        .justify-content-center {
+            justify-content: center;
+        }
+
+        .col-md-8 {
+            flex: 0 0 66.666667%;
+            max-width: 66.666667%;
+            padding: 0 15px;
+        }
+
+        .col-md-6 {
+            flex: 0 0 50%;
+            max-width: 50%;
+            padding: 0 15px;
+        }
+
+        /* Card styles */
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .card-header {
+            background: linear-gradient(45deg, #d4af37, #f4d03f) !important;
+            color: #1a1a1a !important;
+            padding: 25px 30px;
+            border-bottom: none;
+        }
+
+        .card-header h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #1a1a1a;
+            font-weight: 700;
+        }
+
+        .card-body {
+            padding: 40px 30px;
+        }
+
+        /* Form styles */
+        .mb-3 {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 1rem;
+        }
+
+        .form-control, .form-select, textarea {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+            font-family: 'Roboto', sans-serif;
+            resize: vertical;
+        }
+
+        .form-control:focus, .form-select:focus, textarea:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .form-control:hover, .form-select:hover, textarea:hover {
+            border-color: #d4af37;
+        }
+
+        /* Textarea specific */
+        textarea {
+            min-height: 120px;
+        }
+
+        /* Number inputs */
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Checkbox styles */
+        .form-check {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .form-check:hover {
+            border-color: #d4af37;
+            background: rgba(212, 175, 55, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .form-check input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #d4af37;
+            cursor: pointer;
+        }
+
+        .form-check label {
+            margin: 0 !important;
+            font-weight: 600;
+            cursor: pointer;
+            flex: 1;
+            color: #333;
+        }
+
+        .form-check input:checked + label {
+            color: #d4af37;
+        }
+
+        /* Form text (help text) */
+        .form-text {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        /* Error messages */
+        .text-danger {
+            color: #dc3545 !important;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .text-danger::before {
+            content: '\f06a';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+        }
+
+        /* Button grid */
+        .d-grid {
+            display: grid;
+        }
+
+        .gap-2 {
+            gap: 15px;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+            min-width: 180px;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #d4af37, #f4d03f);
+            color: #1a1a1a;
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+            color: #1a1a1a;
+            text-decoration: none;
+        }
+
+        .btn-lg {
+            padding: 18px 35px;
+            font-size: 1.2rem;
+        }
+
+        .btn-secondary {
+            background: rgba(108, 117, 125, 0.1);
+            color: #6c757d;
+            border: 2px solid #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background: #6c757d;
+            color: white;
+            transform: translateY(-2px);
+            text-decoration: none;
+        }
+
+        /* Input groups for currency and duration */
+        .input-group {
+            position: relative;
+        }
+
+        .input-group .form-control {
+            padding-right: 50px;
+        }
+
+        .input-suffix {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+            font-weight: 600;
+            pointer-events: none;
+        }
+
+        /* Loading state */
+        .btn-loading {
+            opacity: 0.8;
+            cursor: not-allowed;
+        }
+
+        .btn-loading::after {
+            content: '';
+            width: 16px;
+            height: 16px;
+            margin-left: 10px;
+            border: 2px solid transparent;
+            border-top: 2px solid currentColor;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        /* Success message */
+        .alert {
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border: none;
+            font-weight: 500;
+        }
+
+        .alert-success {
+            background: rgba(25, 135, 84, 0.1);
+            color: #198754;
+            border-left: 4px solid #198754;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 20px;
+                padding: 1rem;
+            }
+
+            .nav-menu {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .main-container {
+                padding: 20px 1rem;
+            }
+
+            .col-md-8, .col-md-6 {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+
+            .card-header, .card-body {
+                padding: 20px;
+            }
+
+            .row {
+                margin: 0;
+            }
+
+            .col-md-6 {
+                padding: 0;
+                margin-bottom: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card-header h3 {
+                font-size: 1.5rem;
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+
+            .card-body {
+                padding: 20px 15px;
+            }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(212, 175, 55, 0.5);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(212, 175, 55, 0.7);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav-container">
+            <a href="/" class="logo">Elite Barbershop</a>
+            <ul class="nav-menu">
+                <li><a href="{% url 'dashboard_barber' %}">Dashboard</a></li>
+                <li><a href="{% url 'ajouter_service' %}">Ajouter un service</a></li>
+                <li><a href="{% url 'ajouter_disponibilite' %}">Ajouter une disponibilité</a></li>
+                <li><a href="{% url 'mes_reservations' %}">Mes Réservations</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h3><i class="fas fa-plus-circle"></i> Ajouter un nouveau service</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="post">
+                            <!-- CSRF Token -->
+                            {% csrf_token %}
+                            
+                            <div class="mb-3">
+                                {{ form.titre.label_tag }}
+                                {{ form.titre }}
+                                {% if form.titre.errors %}
+                                    <div class="text-danger">{{ form.titre.errors }}</div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="mb-3">
+                                {{ form.description.label_tag }}
+                                {{ form.description }}
+                                {% if form.description.errors %}
+                                    <div class="text-danger">{{ form.description.errors }}</div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    {{ form.prix.label_tag }}
+                                    <div class="input-group">
+                                        {{ form.prix }}
+                                        <span class="input-suffix">€</span>
+                                    </div>
+                                    {% if form.prix.errors %}
+                                        <div class="text-danger">{{ form.prix.errors }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    {{ form.duree_minutes.label_tag }}
+                                    <div class="input-group">
+                                        {{ form.duree_minutes }}
+                                        <span class="input-suffix">min</span>
+                                    </div>
+                                    <div class="form-text">{{ form.duree_minutes.help_text }}</div>
+                                    {% if form.duree_minutes.errors %}
+                                        <div class="text-danger">{{ form.duree_minutes.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3 form-check">
+                                {{ form.est_actif }}
+                                {{ form.est_actif.label_tag }}
+                                <div class="form-text">{{ form.est_actif.help_text }}</div>
+                            </div>
+                            
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-check-circle"></i> Créer le service
+                                </button>
+                                <a href="{% url 'dashboard_barber' %}" class="btn btn-secondary">
+                                    <i class="fas fa-arrow-left"></i> Retour au dashboard
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Form validation
+            const form = document.querySelector('form');
+            const prixInput = document.querySelector('#id_prix');
+            const dureeInput = document.querySelector('#id_duree_minutes');
+            
+            // Price validation
+            if (prixInput) {
+                prixInput.addEventListener('input', function() {
+                    const value = parseFloat(this.value);
+                    if (value < 0) {
+                        this.setCustomValidity('Le prix ne peut pas être négatif');
+                    } else if (value > 1000) {
+                        this.setCustomValidity('Le prix semble trop élevé');
+                    } else {
+                        this.setCustomValidity('');
+                    }
+                });
+            }
+            
+            // Duration validation
+            if (dureeInput) {
+                dureeInput.addEventListener('input', function() {
+                    const value = parseInt(this.value);
+                    if (value < 5) {
+                        this.setCustomValidity('La durée doit être d\'au moins 5 minutes');
+                    } else if (value > 480) {
+                        this.setCustomValidity('La durée ne peut pas dépasser 8 heures');
+                    } else {
+                        this.setCustomValidity('');
+                    }
+                });
+            }
+            
+            // Enhanced checkbox interaction
+            const checkboxContainer = document.querySelector('.form-check');
+            if (checkboxContainer) {
+                checkboxContainer.addEventListener('click', function(e) {
+                    if (e.target.type !== 'checkbox') {
+                        const checkbox = this.querySelector('input[type="checkbox"]');
+                        checkbox.checked = !checkbox.checked;
+                    }
+                });
+            }
+            
+            // Form submission handler
+            form.addEventListener('submit', function(e) {
+                const submitBtn = this.querySelector('.btn-primary');
+                const originalText = submitBtn.innerHTML;
+                
+                // Show loading state
+                submitBtn.classList.add('btn-loading');
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Création en cours...';
+                submitBtn.disabled = true;
+                
+                // Let the form submit normally to Django
+                // Don't prevent default - let Django handle the form processing
+            });
+            
+            // Animation on form elements
+            const formElements = document.querySelectorAll('.mb-3, .form-check');
+            formElements.forEach((el, index) => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'all 0.6s ease';
+                
+                setTimeout(() => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>

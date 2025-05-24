@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mes réservations - Elite Barbershop</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f8f8;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: white;
+            padding: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(212, 175, 55, 0.1), transparent);
+            z-index: 1;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .nav-back {
+            margin-bottom: 2rem;
+        }
+
+        .nav-back a {
+            color: #d4af37;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-right: 20px;
+        }
+
+        .nav-back a:hover {
+            color: #f4d03f;
+            transform: translateX(-5px);
+        }
+
+        .reservations-header {
+            text-align: center;
+        }
+
+        .reservations-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: #d4af37;
+            margin-bottom: 0.5rem;
+        }
+
+        .reservations-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: -20px auto 0;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .reservations-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+            margin-top: 40px;
+        }
+
+        /* Statistics Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: linear-gradient(45deg, #d4af37, #f4d03f);
+            color: #1a1a1a;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Filter Section */
+        .filter-section {
+            background: #f8f8f8;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-select {
+            padding: 8px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            background: white;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: #d4af37;
+        }
+
+        /* Reservation Cards */
+        .reservations-grid {
+            display: grid;
+            gap: 20px;
+        }
+
+        .reservation-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid #d4af37;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .reservation-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .reservation-card.confirmee {
+            border-left-color: #28a745;
+        }
+
+        .reservation-card.annulee {
+            border-left-color: #dc3545;
+        }
+
+        .reservation-card.terminee {
+            border-left-color: #6c757d;
+        }
+
+        .reservation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .client-info h4 {
+            color: #333;
+            margin-bottom: 5px;
+            font-size: 1.2rem;
+        }
+
+        .client-contact {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-badge.confirmee {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-badge.annulee {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-badge.terminee {
+            background: #e2e3e5;
+            color: #383d41;
+        }
+
+        .reservation-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .detail-item i {
+            color: #d4af37;
+            width: 16px;
+        }
+
+        .detail-label {
+            font-weight: 500;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            color: #333;
+            margin-left: auto;
+        }
+
+        .reservation-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+            transform: translateY(-1px);
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+            color: white;
+            text-decoration: none;
+        }
+
+        /* No Reservations */
+        .no-reservations {
+            text-align: center;
+            padding: 80px 40px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .no-reservations i {
+            font-size: 4rem;
+            color: #d4af37;
+            margin-bottom: 25px;
+        }
+
+        .no-reservations h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .no-reservations p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        /* Table for Desktop */
+        .table-view {
+            display: none;
+        }
+
+        @media (min-width: 1024px) {
+            .table-view {
+                display: block;
+            }
+            
+            .cards-view {
+                display: none;
+            }
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .reservation-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .reservation-table th {
+            background: linear-gradient(45deg, #d4af37, #f4d03f);
+            color: #1a1a1a;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .reservation-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e9ecef;
+            vertical-align: top;
+        }
+
+        .reservation-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        /* Footer Actions */
+        .footer-actions {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 0 1rem;
+                margin-top: 0;
+            }
+
+            .reservations-section {
+                padding: 30px 20px;
+                margin-top: 20px;
+                border-radius: 15px;
+            }
+
+            .reservations-header h1 {
+                font-size: 2rem;
+            }
+
+            .header-content {
+                padding: 0 1rem;
+            }
+
+            .filter-section {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .reservation-details {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .reservation-actions {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .reservations-section {
+                padding: 25px 15px;
+            }
+
+            .reservation-card {
+                padding: 20px;
+            }
+
+            .reservations-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .reservation-card {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .reservation-card:nth-child(1) { animation-delay: 0.1s; }
+        .reservation-card:nth-child(2) { animation-delay: 0.2s; }
+        .reservation-card:nth-child(3) { animation-delay: 0.3s; }
+        .reservation-card:nth-child(4) { animation-delay: 0.4s; }
+        .reservation-card:nth-child(5) { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <nav class="nav-back">
+                <a href="{% url 'dashboard_barber' %}">
+                    <i class="fas fa-arrow-left"></i>
+                    Retour au dashboard
+                </a>
+                <a href="{% url 'index' %}">
+                    <i class="fas fa-home"></i>
+                    Accueil
+                </a>
+            </nav>
+            
+            <div class="reservations-header">
+                <h1>Mes Réservations</h1>
+                <p class="reservations-subtitle">Gérez vos rendez-vous clients</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <section class="reservations-section">
+            {% if reservations %}
+            <!-- Statistics -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalReservations">{{ reservations|length }}</div>
+                    <div class="stat-label">Total réservations</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="confirmedReservations">
+                        {% with confirmees=reservations %}
+                            {% for reservation in confirmees %}
+                                {% if reservation.statut == 'confirmee' %}{{ forloop.parentloop.counter0|add:1 }}{% endif %}
+                            {% empty %}0{% endfor %}
+                        {% endwith %}
+                    </div>
+                    <div class="stat-label">Confirmées</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="todayReservations">
+                        {% now "Y-m-d" as today %}
+                        {% with today_reservations=reservations %}
+                            {% for reservation in today_reservations %}
+                                {% if reservation.date_reservation|date:"Y-m-d" == today %}{{ forloop.parentloop.counter0|add:1 }}{% endif %}
+                            {% empty %}0{% endfor %}
+                        {% endwith %}
+                    </div>
+                    <div class="stat-label">Aujourd'hui</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalRevenue">
+                        {% for reservation in reservations %}
+                            {% if reservation.statut == 'confirmee' or reservation.statut == 'terminee' %}
+                                {{ reservation.prix_service|add:0 }}
+                            {% endif %}
+                        {% endfor %}€
+                    </div>
+                    <div class="stat-label">Chiffre d'affaires</div>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="filter-section">
+                <label for="statusFilter">Filtrer par statut :</label>
+                <select id="statusFilter" class="filter-select">
+                    <option value="all">Tous les statuts</option>
+                    <option value="confirmee">Confirmées</option>
+                    <option value="terminee">Terminées</option>
+                    <option value="annulee">Annulées</option>
+                </select>
+                
+                <label for="dateFilter">Période :</label>
+                <select id="dateFilter" class="filter-select">
+                    <option value="all">Toutes les dates</option>
+                    <option value="today">Aujourd'hui</option>
+                    <option value="week">Cette semaine</option>
+                    <option value="month">Ce mois</option>
+                </select>
+            </div>
+
+            <!-- Desktop Table View -->
+            <div class="table-view">
+                <div class="table-container">
+                    <table class="reservation-table">
+                        <thead>
+                            <tr>
+                                <th>Client</th>
+                                <th>Service</th>
+                                <th>Date</th>
+                                <th>Heure</th>
+                                <th>Prix</th>
+                                <th>Statut</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for reservation in reservations %}
+                            <tr class="reservation-row" data-status="{{ reservation.statut }}" data-date="{{ reservation.date_reservation|date:'Y-m-d' }}">
+                                <td>
+                                    <strong>{{ reservation.client.prenom }} {{ reservation.client.nom }}</strong><br>
+                                    <small style="color: #666;">{{ reservation.client.email }}</small>
+                                    {% if reservation.client.telephone %}
+                                        <br><small style="color: #666;">{{ reservation.client.telephone }}</small>
+                                    {% endif %}
+                                </td>
+                                <td>{{ reservation.service.titre }}</td>
+                                <td>{{ reservation.date_reservation|date:"d/m/Y" }}</td>
+                                <td>{{ reservation.heure_debut|time:"H:i" }} - {{ reservation.heure_fin|time:"H:i" }}</td>
+                                <td>{{ reservation.prix_service }}€</td>
+                                <td>
+                                    <span class="status-badge {{ reservation.statut }}">
+                                        {{ reservation.get_statut_display }}
+                                    </span>
+                                </td>
+                                <td>
+                                    {% if reservation.statut == 'confirmee' %}
+                                        <form method="post" action="{% url 'changer_statut_reservation' reservation.id %}" class="d-inline">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="statut" value="terminee">
+                                            <button type="submit" class="btn btn-success">
+                                                <i class="fas fa-check-circle"></i> Terminer
+                                            </button>
+                                        </form>
+                                        <form method="post" action="{% url 'changer_statut_reservation' reservation.id %}" class="d-inline">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="statut" value="annulee">
+                                            <button type="submit" class="btn btn-danger" onclick="return confirm('Annuler cette réservation ?')">
+                                                <i class="fas fa-times-circle"></i> Annuler
+                                            </button>
+                                        </form>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Mobile Cards View -->
+            <div class="cards-view">
+                <div class="reservations-grid">
+                    {% for reservation in reservations %}
+                    <div class="reservation-card {{ reservation.statut }}" data-status="{{ reservation.statut }}" data-date="{{ reservation.date_reservation|date:'Y-m-d' }}">
+                        <div class="reservation-header">
+                            <div class="client-info">
+                                <h4>{{ reservation.client.prenom }} {{ reservation.client.nom }}</h4>
+                                <div class="client-contact">
+                                    {{ reservation.client.email }}<br>
+                                    {% if reservation.client.telephone %}{{ reservation.client.telephone }}{% endif %}
+                                </div>
+                            </div>
+                            <span class="status-badge {{ reservation.statut }}">
+                                {{ reservation.get_statut_display }}
+                            </span>
+                        </div>
+                        
+                        <div class="reservation-details">
+                            <div class="detail-item">
+                                <i class="fas fa-cut"></i>
+                                <span class="detail-label">Service :</span>
+                                <span class="detail-value">{{ reservation.service.titre }}</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-calendar"></i>
+                                <span class="detail-label">Date :</span>
+                                <span class="detail-value">{{ reservation.date_reservation|date:"d/m/Y" }}</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-clock"></i>
+                                <span class="detail-label">Heure :</span>
+                                <span class="detail-value">{{ reservation.heure_debut|time:"H:i" }} - {{ reservation.heure_fin|time:"H:i" }}</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-euro-sign"></i>
+                                <span class="detail-label">Prix :</span>
+                                <span class="detail-value">{{ reservation.prix_service }}€</span>
+                            </div>
+                        </div>
+                        
+                        {% if reservation.statut == 'confirmee' %}
+                        <div class="reservation-actions">
+                            <form method="post" action="{% url 'changer_statut_reservation' reservation.id %}" class="d-inline">
+                                {% csrf_token %}
+                                <input type="hidden" name="statut" value="terminee">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-check-circle"></i> Terminer
+                                </button>
+                            </form>
+                            <form method="post" action="{% url 'changer_statut_reservation' reservation.id %}" class="d-inline">
+                                {% csrf_token %}
+                                <input type="hidden" name="statut" value="annulee">
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('Annuler cette réservation ?')">
+                                    <i class="fas fa-times-circle"></i> Annuler
+                                </button>
+                            </form>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            {% else %}
+            <div class="no-reservations">
+                <i class="fas fa-calendar-times"></i>
+                <h3>Aucune réservation</h3>
+                <p>Vous n'avez pas encore de réservations. Les nouvelles réservations apparaîtront ici.</p>
+            </div>
+            {% endif %}
+        </section>
+    </main>
+
+    <!-- Footer Actions -->
+    <div class="footer-actions">
+        <a href="{% url 'dashboard_barber' %}" class="btn-secondary">
+            <i class="fas fa-arrow-left"></i>
+            Retour au dashboard
+        </a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animation des statistiques
+            const statNumbers = document.querySelectorAll('.stat-number');
+            statNumbers.forEach(stat => {
+                const text = stat.textContent;
+                const isEuro = text.includes('€');
+                const finalValue = parseFloat(text.replace('€', '')) || 0;
+                let currentValue = 0;
+                const increment = finalValue / 30;
+                
+                stat.textContent = '0' + (isEuro ? '€' : '');
+                
+                const timer = setInterval(() => {
+                    currentValue += increment;
+                    if (currentValue >= finalValue) {
+                        currentValue = finalValue;
+                        clearInterval(timer);
+                    }
+                    
+                    if (isEuro) {
+                        stat.textContent = Math.floor(currentValue) + '€';
+                    } else {
+                        stat.textContent = Math.floor(currentValue);
+                    }
+                }, 50);
+            });
+
+            // Filtres
+            const statusFilter = document.getElementById('statusFilter');
+            const dateFilter = document.getElementById('dateFilter');
+            const reservationRows = document.querySelectorAll('.reservation-row, .reservation-card');
+
+            function applyFilters() {
+                const statusValue = statusFilter.value;
+                const dateValue = dateFilter.value;
+                const today = new Date().toISOString().split('T')[0];
+                
+                reservationRows.forEach(row => {
+                    let show = true;
+                    
+                    // Filtre par statut
+                    if (statusValue !== 'all') {
+                        const rowStatus = row.dataset.status;
+                        if (rowStatus !== statusValue) {
+                            show = false;
+                        }
+                    }
+                    
+                    // Filtre par date
+                    if (dateValue !== 'all' && show) {
+                        const rowDate = new Date(row.dataset.date);
+                        const todayDate = new Date(today);
+                        
+                        switch(dateValue) {
+                            case 'today':
+                                if (row.dataset.date !== today) {
+                                    show = false;
+                                }
+                                break;
+                            case 'week':
+                                const weekStart = new Date(todayDate);
+                                weekStart.setDate(todayDate.getDate() - todayDate.getDay());
+                                if (rowDate < weekStart || rowDate > new Date(weekStart.getTime() + 7 * 24 * 60 * 60 * 1000)) {
+                                    show = false;
+                                }
+                                break;
+                            case 'month':
+                                if (rowDate.getMonth() !== todayDate.getMonth() || rowDate.getFullYear() !== todayDate.getFullYear()) {
+                                    show = false;
+                                }
+                                break;
+                        }
+                    }
+                    
+                    row.style.display = show ? '' : 'none';
+                });
+            }
+
+            if (statusFilter) statusFilter.addEventListener('change', applyFilters);
+            if (dateFilter) dateFilter.addEventListener('change', applyFilters);
+
+            // Confirmation des actions
+            document.querySelectorAll('form[action*="changer_statut_reservation"]').forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    const button = this.querySelector('button[type="submit"]');
+                    const action = this.querySelector('input[name="statut"]').value;
+                    
+                    let message = '';
+                    if (action === 'terminee') {
+                        message = 'Marquer cette réservation comme terminée ?';
+                    } else if (action === 'annulee') {
+                        message = 'Êtes-vous sûr de vouloir annuler cette réservation ?';
+                    }
+                    
+                    if (message && !confirm(message)) {
+                        e.preventDefault();
+                        return;
+                    }
+                    
+                    // Désactiver le bouton
+                    button.disabled = true;
+                    const originalText = button.innerHTML;
+                    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ' + (action === 'terminee' ? 'Terminaison...' : 'Annulation...');
+                    
+                    // Restaurer après 3 secondes si pas de redirection
+                    setTimeout(() => {
+                        button.disabled = false;
+                        button.innerHTML = originalText;
+                    }, 3000);
+                });
+            });
+
+            // Effet parallax léger
+            window.addEventListener('scroll', () => {
+                const scrolled = window.pageYOffset;
+                const header = document.querySelector('.header');
+                if (header) {
+                    header.style.transform = `translateY(${scrolled * 0.3}px)`;
+                }
+            });
+
+            // Auto-refresh toutes les 5 minutes (optionnel)
+            setInterval(() => {
+                const now = new Date();
+                if (now.getSeconds() === 0) { // Rafraîchir seulement au début de chaque minute
+                    location.reload();
+                }
+            }, 60000);
+        });
+    </script>
+</body>
+</html>

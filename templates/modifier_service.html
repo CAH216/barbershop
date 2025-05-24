@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier {{ service.titre }} - Elite Barbershop</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f8f8;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: white;
+            padding: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(212, 175, 55, 0.1), transparent);
+            z-index: 1;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .nav-back {
+            margin-bottom: 2rem;
+        }
+
+        .nav-back a {
+            color: #d4af37;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-right: 20px;
+        }
+
+        .nav-back a:hover {
+            color: #f4d03f;
+            transform: translateX(-5px);
+        }
+
+        .service-header {
+            text-align: center;
+        }
+
+        .service-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: #d4af37;
+            margin-bottom: 0.5rem;
+        }
+
+        .service-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 900px;
+            margin: -20px auto 0;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .edit-section {
+            background: white;
+            border-radius: 20px;
+            padding: 50px 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            margin-top: 40px;
+        }
+
+        /* Form Styles */
+        .form-section h3 {
+            color: #333;
+            margin-bottom: 30px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 1rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f9f9f9;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #d4af37;
+            background: white;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+        }
+
+        .form-group input.is-valid {
+            border-color: #28a745;
+            background-color: #f8fff9;
+        }
+
+        .form-group input.is-invalid {
+            border-color: #dc3545;
+            background-color: #fff5f5;
+        }
+
+        .form-text {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .text-danger {
+            color: #dc3545;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        /* Checkbox */
+        .form-check {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 25px;
+            padding: 15px;
+            background: #f8f8f8;
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+
+        .form-check:hover {
+            border-color: #d4af37;
+            background: #fffbf0;
+        }
+
+        .form-check input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin: 0;
+            cursor: pointer;
+            accent-color: #d4af37;
+        }
+
+        .form-check label {
+            cursor: pointer;
+            margin: 0;
+            font-weight: 500;
+            flex: 1;
+        }
+
+        /* Info Section */
+        .info-section {
+            background: linear-gradient(45deg, #e3f2fd, #f0f8ff);
+            border: 2px solid #bbdefb;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .info-section h4 {
+            color: #1976d2;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .info-section ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .info-section li {
+            margin-bottom: 8px;
+            color: #1565c0;
+            line-height: 1.5;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(45deg, #d4af37, #f4d03f);
+            color: #1a1a1a;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+        }
+
+        .btn-primary:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-secondary {
+            background: #666;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-align: center;
+            width: 100%;
+        }
+
+        .btn-secondary:hover {
+            background: #555;
+            transform: translateY(-2px);
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .stats-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .stats-header h3 {
+            color: #d4af37;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 25px;
+            background: #f8f8f8;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: #d4af37;
+            background: white;
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .stat-number.primary { color: #d4af37; }
+        .stat-number.success { color: #28a745; }
+        .stat-number.info { color: #17a2b8; }
+
+        .stat-label {
+            color: #666;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 0 1rem;
+                margin-top: 0;
+            }
+
+            .edit-section,
+            .stats-section {
+                padding: 40px 20px;
+                margin-top: 20px;
+                border-radius: 15px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .service-header h1 {
+                font-size: 2rem;
+            }
+
+            .header-content {
+                padding: 0 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .edit-section,
+            .stats-section {
+                padding: 30px 15px;
+            }
+
+            .service-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .btn-primary {
+                padding: 15px 30px;
+                font-size: 1rem;
+            }
+
+            .stat-number {
+                font-size: 2rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .edit-section {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .stats-section {
+            animation: slideInLeft 0.8s ease forwards;
+        }
+
+        .stat-card {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .stat-card:nth-child(2) { animation-delay: 0.2s; }
+        .stat-card:nth-child(3) { animation-delay: 0.3s; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <nav class="nav-back">
+                <a href="{% url 'dashboard_barber' %}">
+                    <i class="fas fa-arrow-left"></i>
+                    Retour au dashboard
+                </a>
+                <a href="{% url 'index' %}">
+                    <i class="fas fa-home"></i>
+                    Accueil
+                </a>
+            </nav>
+            
+            <div class="service-header">
+                <h1>Modifier le service</h1>
+                <p class="service-subtitle">{{ service.titre }} - Personnalisez votre offre</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Edit Form Section -->
+        <section class="edit-section">
+            <div class="form-section">
+                <h3>
+                    <i class="fas fa-edit"></i>
+                    Informations du service
+                </h3>
+                
+                <form method="post" id="editServiceForm">
+                    {% csrf_token %}
+                    
+                    <div class="form-group">
+                        {{ form.titre.label_tag }}
+                        {{ form.titre }}
+                        {% if form.titre.errors %}
+                            <div class="text-danger">{{ form.titre.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        {{ form.description.label_tag }}
+                        {{ form.description }}
+                        {% if form.description.errors %}
+                            <div class="text-danger">{{ form.description.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            {{ form.prix.label_tag }}
+                            {{ form.prix }}
+                            {% if form.prix.errors %}
+                                <div class="text-danger">{{ form.prix.errors }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            {{ form.duree_minutes.label_tag }}
+                            {{ form.duree_minutes }}
+                            <div class="form-text">{{ form.duree_minutes.help_text }}</div>
+                            {% if form.duree_minutes.errors %}
+                                <div class="text-danger">{{ form.duree_minutes.errors }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="form-check">
+                        {{ form.est_actif }}
+                        <label for="{{ form.est_actif.id_for_label }}">
+                            {{ form.est_actif.label }}
+                            <div class="form-text" style="margin-top: 5px;">{{ form.est_actif.help_text }}</div>
+                        </label>
+                    </div>
+                    
+                    <!-- Info importante -->
+                    <div class="info-section">
+                        <h4>
+                            <i class="fas fa-info-circle"></i>
+                            Informations importantes
+                        </h4>
+                        <ul>
+                            <li>Les modifications s'appliqueront aux nouvelles réservations uniquement</li>
+                            <li>Les réservations existantes conservent les anciens prix et durées</li>
+                            <li>Si vous désactivez ce service, il n'apparaîtra plus dans les disponibilités futures</li>
+                            <li>Vous pouvez modifier ces paramètres à tout moment</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary" id="submitBtn">
+                            <i class="fas fa-save"></i>
+                            Sauvegarder les modifications
+                        </button>
+                        <a href="{% url 'dashboard_barber' %}" class="btn-secondary">
+                            <i class="fas fa-arrow-left"></i>
+                            Retour au dashboard
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Statistics Section -->
+        <section class="stats-section">
+            <div class="stats-header">
+                <h3>
+                    <i class="fas fa-chart-line"></i>
+                    Statistiques du service
+                </h3>
+                <p style="color: #666; margin: 0;">Aperçu des performances de ce service</p>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number primary">{{ service.reservations.all|length }}</div>
+                    <div class="stat-label">Réservations totales</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number success">
+                        {% with confirmees=service.reservations.all %}
+                            {% for reservation in confirmees %}
+                                {% if reservation.statut == 'confirmee' %}{{ forloop.parentloop.counter0|add:1 }}{% endif %}
+                            {% empty %}0{% endfor %}
+                        {% endwith %}
+                    </div>
+                    <div class="stat-label">Réservations confirmées</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number info">{{ service.prix|floatformat:2 }}€</div>
+                    <div class="stat-label">Prix actuel</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('editServiceForm');
+            const submitBtn = document.getElementById('submitBtn');
+
+            // Validation en temps réel
+            const requiredFields = {
+                '#id_titre': 'Titre requis',
+                '#id_description': 'Description requise',
+                '#id_prix': 'Prix requis',
+                '#id_duree_minutes': 'Durée requise'
+            };
+
+            Object.keys(requiredFields).forEach(selector => {
+                const field = document.querySelector(selector);
+                if (field) {
+                    field.addEventListener('blur', validateField);
+                    field.addEventListener('input', validateField);
+                }
+            });
+
+            function validateField() {
+                this.classList.remove('is-valid', 'is-invalid');
+                
+                const value = this.value.trim();
+                const isValid = value.length > 0;
+                
+                // Validation spécifique selon le type
+                if (this.type === 'number') {
+                    const num = parseFloat(value);
+                    if (this.id === 'id_prix' && (isNaN(num) || num <= 0)) {
+                        this.classList.add('is-invalid');
+                        return;
+                    }
+                    if (this.id === 'id_duree_minutes' && (isNaN(num) || num < 15)) {
+                        this.classList.add('is-invalid');
+                        return;
+                    }
+                }
+
+                if (isValid) {
+                    this.classList.add('is-valid');
+                } else {
+                    this.classList.add('is-invalid');
+                }
+            }
+
+            // Gestion de la soumission
+            form.addEventListener('submit', function(e) {
+                // Validation finale
+                let isFormValid = true;
+                Object.keys(requiredFields).forEach(selector => {
+                    const field = document.querySelector(selector);
+                    if (field && !field.value.trim()) {
+                        field.classList.add('is-invalid');
+                        isFormValid = false;
+                    }
+                });
+
+                if (!isFormValid) {
+                    e.preventDefault();
+                    alert('Veuillez corriger les erreurs dans le formulaire');
+                    return;
+                }
+
+                // Confirmation
+                if (!confirm('Êtes-vous sûr de vouloir sauvegarder ces modifications ?')) {
+                    e.preventDefault();
+                    return;
+                }
+
+                // Désactiver le bouton
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sauvegarde en cours...';
+            });
+
+            // Auto-resize textarea
+            const textarea = document.querySelector('#id_description');
+            if (textarea) {
+                textarea.addEventListener('input', function() {
+                    this.style.height = 'auto';
+                    this.style.height = this.scrollHeight + 'px';
+                });
+                
+                // Ajuster à la taille initiale
+                textarea.style.height = textarea.scrollHeight + 'px';
+            }
+
+            // Formatage automatique du prix
+            const prixField = document.querySelector('#id_prix');
+            if (prixField) {
+                prixField.addEventListener('blur', function() {
+                    const value = parseFloat(this.value);
+                    if (!isNaN(value)) {
+                        this.value = value.toFixed(2);
+                    }
+                });
+            }
+
+            // Animation des statistiques
+            const statNumbers = document.querySelectorAll('.stat-number');
+            statNumbers.forEach(stat => {
+                const finalValue = parseInt(stat.textContent) || parseFloat(stat.textContent) || 0;
+                let currentValue = 0;
+                const increment = finalValue / 30;
+                
+                const timer = setInterval(() => {
+                    currentValue += increment;
+                    if (currentValue >= finalValue) {
+                        currentValue = finalValue;
+                        clearInterval(timer);
+                    }
+                    
+                    if (stat.textContent.includes('€')) {
+                        stat.textContent = currentValue.toFixed(2) + '€';
+                    } else {
+                        stat.textContent = Math.floor(currentValue);
+                    }
+                }, 50);
+            });
+
+            // Effet parallax léger
+            window.addEventListener('scroll', () => {
+                const scrolled = window.pageYOffset;
+                const header = document.querySelector('.header');
+                if (header) {
+                    header.style.transform = `translateY(${scrolled * 0.3}px)`;
+                }
+            });
+
+            // Sauvegarde automatique en brouillon (localStorage)
+            const formElements = ['#id_titre', '#id_description', '#id_prix', '#id_duree_minutes'];
+            formElements.forEach(selector => {
+                const element = document.querySelector(selector);
+                if (element) {
+                    // Charger brouillon
+                    const saved = localStorage.getItem('draft_' + element.id);
+                    if (saved && !element.value) {
+                        element.value = saved;
+                    }
+
+                    // Sauvegarder au changement
+                    element.addEventListener('input', function() {
+                        localStorage.setItem('draft_' + this.id, this.value);
+                    });
+                }
+            });
+
+            // Nettoyer les brouillons après sauvegarde
+            form.addEventListener('submit', function() {
+                formElements.forEach(selector => {
+                    const element = document.querySelector(selector);
+                    if (element) {
+                        localStorage.removeItem('draft_' + element.id);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

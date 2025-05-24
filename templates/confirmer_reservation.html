@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmer votre réservation - Elite Barbershop</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Background pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><g fill="%23d4af37" fill-opacity="0.05"><circle cx="30" cy="30" r="2"/></g></svg>');
+            z-index: -1;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #d4af37;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-menu a:hover {
+            color: #d4af37;
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: #d4af37;
+            transition: width 0.3s ease;
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        /* Main container */
+        .main-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 2rem;
+        }
+
+        /* Row and column layout */
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -15px;
+        }
+
+        .justify-content-center {
+            justify-content: center;
+        }
+
+        .col-md-8 {
+            flex: 0 0 66.666667%;
+            max-width: 66.666667%;
+            padding: 0 15px;
+        }
+
+        .col-md-6 {
+            flex: 0 0 50%;
+            max-width: 50%;
+            padding: 0 15px;
+            margin-bottom: 20px;
+        }
+
+        /* Card styles */
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .card-header {
+            background: linear-gradient(45deg, #d4af37, #f4d03f) !important;
+            color: #1a1a1a !important;
+            padding: 25px 30px;
+            border-bottom: none;
+            text-align: center;
+        }
+
+        .card-header h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin: 0 0 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            color: #1a1a1a;
+            font-weight: 700;
+        }
+
+        .card-header p {
+            margin: 0;
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        .card-body {
+            padding: 40px 30px;
+        }
+
+        /* Alert styles */
+        .alert {
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border: none;
+            font-weight: 500;
+        }
+
+        .alert-info {
+            background: rgba(13, 202, 240, 0.1);
+            color: #055160;
+            border-left: 4px solid #0dcaf0;
+        }
+
+        .alert-warning {
+            background: rgba(255, 193, 7, 0.1);
+            color: #664d03;
+            border-left: 4px solid #ffc107;
+        }
+
+        .alert h5, .alert h6 {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .alert ul {
+            margin-bottom: 0;
+            padding-left: 20px;
+        }
+
+        .alert li {
+            margin-bottom: 5px;
+        }
+
+        /* Typography */
+        h6 {
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1rem;
+        }
+
+        h6 i {
+            color: #d4af37;
+        }
+
+        /* Table styles */
+        .table {
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        .table-borderless td {
+            padding: 8px 12px;
+            border: none;
+            vertical-align: top;
+        }
+
+        .table-sm td {
+            padding: 6px 8px;
+        }
+
+        .table td:first-child {
+            font-weight: 600;
+            color: #666;
+            width: 40%;
+        }
+
+        .table td:last-child {
+            color: #333;
+        }
+
+        .text-success {
+            color: #198754 !important;
+            font-weight: 700;
+        }
+
+        .text-primary {
+            color: #d4af37 !important;
+            font-weight: 600;
+        }
+
+        .text-muted {
+            color: #6c757d !important;
+            font-style: italic;
+        }
+
+        /* Code styles */
+        code {
+            background: rgba(212, 175, 55, 0.1);
+            color: #d4af37;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.9em;
+            font-weight: 600;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        /* Spacing utilities */
+        .mb-0 { margin-bottom: 0 !important; }
+        .mb-2 { margin-bottom: 0.5rem !important; }
+        .mb-4 { margin-bottom: 1.5rem !important; }
+        .mt-3 { margin-top: 1rem !important; }
+        .mt-4 { margin-top: 1.5rem !important; }
+
+        /* Buttons */
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .btn-success {
+            background: linear-gradient(45deg, #198754, #20c997);
+            color: white;
+            box-shadow: 0 5px 15px rgba(25, 135, 84, 0.3);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(25, 135, 84, 0.4);
+            color: white;
+            text-decoration: none;
+        }
+
+        .btn-danger {
+            background: linear-gradient(45deg, #dc3545, #e74c3c);
+            color: white;
+            box-shadow: 0 5px 15px rgba(220, 53, 69, 0.3);
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(220, 53, 69, 0.4);
+            color: white;
+            text-decoration: none;
+        }
+
+        .btn-outline-secondary {
+            background: transparent;
+            color: #6c757d;
+            border: 2px solid #6c757d;
+            padding: 8px 16px;
+            font-size: 0.9rem;
+        }
+
+        .btn-outline-secondary:hover {
+            background: #6c757d;
+            color: white;
+            transform: translateY(-2px);
+            text-decoration: none;
+        }
+
+        .btn-lg {
+            padding: 18px 35px;
+            font-size: 1.2rem;
+            min-height: 60px;
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 0.9rem;
+        }
+
+        .w-100 {
+            width: 100% !important;
+        }
+
+        .text-center {
+            text-align: center !important;
+        }
+
+        /* Form styles */
+        form {
+            margin: 0;
+        }
+
+        /* Print styles */
+        @media print {
+            .btn, .alert-info:last-child, .header, footer {
+                display: none !important;
+            }
+            .card {
+                border: none !important;
+                box-shadow: none !important;
+            }
+            .card-header {
+                background-color: #f8f9fa !important;
+                color: #000 !important;
+            }
+            body {
+                background: white !important;
+            }
+            body::before {
+                display: none !important;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Loading states */
+        .btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 20px;
+                padding: 1rem;
+            }
+
+            .nav-menu {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .main-container {
+                padding: 20px 1rem;
+            }
+
+            .col-md-8, .col-md-6 {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+
+            .card-header, .card-body {
+                padding: 20px;
+            }
+
+            .row {
+                margin: 0;
+            }
+
+            .col-md-6 {
+                padding: 0;
+                margin-bottom: 15px;
+            }
+
+            .btn-lg {
+                padding: 15px 20px;
+                font-size: 1rem;
+            }
+
+            .card-header h3 {
+                font-size: 1.5rem;
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card-body {
+                padding: 15px;
+            }
+
+            .table td:first-child {
+                width: 45%;
+                font-size: 0.9rem;
+            }
+
+            .table td:last-child {
+                font-size: 0.9rem;
+            }
+
+            h6 {
+                font-size: 1rem;
+            }
+        }
+
+        /* Animation styles for confirmation */
+        .success-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(25, 135, 84, 0.95), rgba(32, 201, 151, 0.95));
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .success-animation.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .success-checkmark {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            transform: scale(0);
+            animation: scaleIn 0.6s ease-out 0.3s forwards;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .success-checkmark i {
+            font-size: 4rem;
+            color: #198754;
+            animation: checkmarkPulse 0.8s ease-out 0.9s;
+        }
+
+        .success-message {
+            text-align: center;
+            color: white;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease-out 1.2s forwards;
+        }
+
+        .success-message h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .success-message p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .success-details {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            opacity: 0;
+            animation: fadeInUp 0.6s ease-out 1.5s forwards;
+        }
+
+        .floating-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            animation: float 3s infinite linear;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #d4af37;
+            animation: confettiFall 2s infinite linear;
+        }
+
+        /* Keyframe animations */
+        @keyframes scaleIn {
+            from {
+                transform: scale(0) rotate(180deg);
+            }
+            to {
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        @keyframes checkmarkPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) translateX(50px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .btn-confirming {
+            background: linear-gradient(45deg, #157347, #198754) !important;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav-container">
+            <a href="/" class="logo">Elite Barbershop</a>
+            <ul class="nav-menu">
+                <li><a href="/">Accueil</a></li>
+                <li><a href="/services/">Services</a></li>
+                <li><a href="/barbiers/">Nos Barbiers</a></li>
+                <li><a href="/contact/">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header bg-warning text-dark text-center">
+                        <h3><i class="fas fa-exclamation-triangle"></i> Confirmation de réservation</h3>
+                        <p class="mb-0">Veuillez vérifier les détails avant de confirmer</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-info">
+                            <h5><i class="fas fa-info-circle"></i> Récapitulatif de votre réservation :</h5>
+                        </div>
+
+                        <!-- Détails de la réservation -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <h6><i class="fas fa-user"></i> Informations client :</h6>
+                                <table class="table table-borderless table-sm">
+                                    <tr>
+                                        <td><strong>Nom :</strong></td>
+                                        <td>{{ reservation.client.prenom }} {{ reservation.client.nom }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Email :</strong></td>
+                                        <td>{{ reservation.client.email }}</td>
+                                    </tr>
+                                    {% if reservation.client.telephone %}
+                                    <tr>
+                                        <td><strong>Téléphone :</strong></td>
+                                        <td>{{ reservation.client.telephone }}</td>
+                                    </tr>
+                                    {% endif %}
+                                </table>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <h6><i class="fas fa-cut"></i> Détails du service :</h6>
+                                <table class="table table-borderless table-sm">
+                                    <tr>
+                                        <td><strong>Service :</strong></td>
+                                        <td>{{ reservation.service.titre }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Prix :</strong></td>
+                                        <td class="text-success">{{ reservation.prix_service }}€</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Durée :</strong></td>
+                                        <td>{{ reservation.service.duree_minutes }} minutes</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Informations salon et rendez-vous -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <h6><i class="fas fa-store"></i> Salon :</h6>
+                                <table class="table table-borderless table-sm">
+                                    <tr>
+                                        <td><strong>Nom :</strong></td>
+                                        <td>{{ reservation.barber.barbershop_name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Barbier :</strong></td>
+                                        <td>{{ reservation.barber.prenom }} {{ reservation.barber.nom }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Téléphone :</strong></td>
+                                        <td>{{ reservation.barber.telephone }}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <h6><i class="fas fa-calendar-alt"></i> Rendez-vous :</h6>
+                                <table class="table table-borderless table-sm">
+                                    <tr>
+                                        <td><strong>Date :</strong></td>
+                                        <td class="text-primary">{{ reservation.date_reservation|date:"l d F Y" }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Heure :</strong></td>
+                                        <td class="text-primary">{{ reservation.heure_debut|time:"H:i" }} - {{ reservation.heure_fin|time:"H:i" }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>N° réservation :</strong></td>
+                                        <td><code>{{ reservation.numero_reservation }}</code></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Description du service -->
+                        <div class="mb-4">
+                            <h6><i class="fas fa-file-alt"></i> Description du service :</h6>
+                            <p class="text-muted">{{ reservation.service.description }}</p>
+                        </div>
+
+                        <!-- Conditions importantes -->
+                        <div class="alert alert-warning">
+                            <h6><i class="fas fa-exclamation-triangle"></i> Conditions importantes :</h6>
+                            <ul class="mb-0">
+                                <li>Veuillez arriver <strong>5 minutes avant</strong> votre rendez-vous</li>
+                                <li>En cas d'empêchement, contactez directement le salon : <strong>{{ reservation.barber.telephone }}</strong></li>
+                                <li>Conservez votre numéro de réservation : <code>{{ reservation.numero_reservation }}</code></li>
+                                <li>Un email de confirmation sera envoyé au barbier automatiquement</li>
+                                <li>Cette réservation sera <strong>définitive</strong> après confirmation</li>
+                            </ul>
+                        </div>
+
+                        <!-- Boutons de confirmation -->
+                        <form method="post" class="mt-4">
+                            <!-- CSRF Token (placeholder) -->
+                            <input type="hidden" name="csrfmiddlewaretoken" value="dummy-csrf-token">
+                            <div class="row">
+                                <div class="col-md-6 mb-2">
+                                    <button type="submit" name="confirmer" class="btn btn-success btn-lg w-100">
+                                        <i class="fas fa-check-circle"></i> Oui, je confirme ma réservation
+                                    </button>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <button type="submit" name="annuler" class="btn btn-danger btn-lg w-100" 
+                                            onclick="return confirm('Êtes-vous sûr de vouloir annuler cette réservation ?')">
+                                        <i class="fas fa-times-circle"></i> Non, annuler
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <!-- Informations de contact -->
+                        <div class="mt-4 text-center">
+                            <small class="text-muted">
+                                Une question ? Contactez directement le salon : 
+                                <strong>{{ reservation.barber.telephone }}</strong> ou 
+                                <a href="mailto:{{ reservation.barber.email }}" style="color: #d4af37;">{{ reservation.barber.email }}</a>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animation d'entrée
+            const card = document.querySelector('.card');
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            
+            setTimeout(() => {
+                card.style.transition = 'all 0.6s ease';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 100);
+            
+            // Effet sur les boutons
+            const buttons = document.querySelectorAll('.btn-lg');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    if (!this.disabled) {
+                        this.style.transform = 'scale(1.02) translateY(-2px)';
+                    }
+                });
+                
+                button.addEventListener('mouseleave', function() {
+                    if (!this.disabled) {
+                        this.style.transform = 'scale(1) translateY(0)';
+                    }
+                });
+            });
+            
+            // Désactiver les boutons après clic pour éviter double soumission
+            const form = document.querySelector('form');
+            form.addEventListener('submit', function(e) {
+                const buttons = this.querySelectorAll('button[type="submit"]');
+                const clickedButton = e.submitter;
+                
+                if (clickedButton && clickedButton.name === 'confirmer') {
+                    // Empêcher la soumission immédiate pour l'animation
+                    e.preventDefault();
+                    
+                    // Animation de confirmation
+                    clickedButton.classList.add('btn-confirming');
+                    clickedButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Confirmation en cours...';
+                    clickedButton.disabled = true;
+                    
+                    // Démarrer l'animation de succès après 1.5 secondes
+                    setTimeout(() => {
+                        showSuccessAnimation();
+                        
+                        // Soumettre réellement le formulaire après l'animation
+                        setTimeout(() => {
+                            // Créer un nouveau formulaire pour soumettre
+                            const hiddenForm = document.createElement('form');
+                            hiddenForm.method = 'post';
+                            hiddenForm.style.display = 'none';
+                            
+                            // Copier le CSRF token
+                            const csrfToken = form.querySelector('[name="csrfmiddlewaretoken"]');
+                            if (csrfToken) {
+                                const hiddenCsrf = csrfToken.cloneNode(true);
+                                hiddenForm.appendChild(hiddenCsrf);
+                            }
+                            
+                            // Ajouter le bouton confirmer
+                            const hiddenInput = document.createElement('input');
+                            hiddenInput.type = 'hidden';
+                            hiddenInput.name = 'confirmer';
+                            hiddenInput.value = 'true';
+                            hiddenForm.appendChild(hiddenInput);
+                            
+                            document.body.appendChild(hiddenForm);
+                            hiddenForm.submit();
+                        }, 3000); // Attendre la fin de l'animation
+                        
+                    }, 1500);
+                    
+                } else if (clickedButton && clickedButton.name === 'annuler') {
+                    // Pour l'annulation, traitement normal
+                    buttons.forEach(button => {
+                        button.disabled = true;
+                        if (button.name === 'annuler') {
+                            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Annulation en cours...';
+                        }
+                    });
+                }
+            });
+            
+            // Compte à rebours (5 minutes pour confirmer)
+            let countdown = 300; // 5 minutes
+            const countdownElement = document.createElement('div');
+            countdownElement.className = 'alert alert-info mt-3 text-center';
+            countdownElement.innerHTML = '<i class="fas fa-clock"></i> Cette page expirera dans <span id="timer"></span>';
+            
+            const timerSpan = countdownElement.querySelector('#timer');
+            
+            // Ajouter le compte à rebours après le formulaire
+            form.parentNode.appendChild(countdownElement);
+            
+            const timer = setInterval(() => {
+                const minutes = Math.floor(countdown / 60);
+                const seconds = countdown % 60;
+                timerSpan.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                
+                countdown--;
+                
+                if (countdown < 0) {
+                    clearInterval(timer);
+                    countdownElement.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Cette page a expiré. Veuillez recommencer votre réservation.';
+                    countdownElement.className = 'alert alert-warning mt-3 text-center';
+                    
+                    // Désactiver les boutons
+                    buttons.forEach(button => {
+                        button.disabled = true;
+                        button.style.opacity = '0.5';
+                        button.style.cursor = 'not-allowed';
+                    });
+                } else if (countdown < 60) {
+                    // Changer la couleur en rouge pour les 60 dernières secondes
+                    countdownElement.className = 'alert alert-warning mt-3 text-center';
+                }
+            }, 1000);
+            
+            // Ajouter un bouton d'impression
+            const cardBody = document.querySelector('.card-body');
+            const printButton = document.createElement('button');
+            printButton.type = 'button';
+            printButton.className = 'btn btn-outline-secondary btn-sm mt-2';
+            printButton.innerHTML = '<i class="fas fa-print"></i> Imprimer ce récapitulatif';
+            printButton.onclick = function() {
+                window.print();
+            };
+            
+            cardBody.appendChild(printButton);
+        });
+
+        // Fonction pour afficher l'animation de succès
+        function showSuccessAnimation() {
+            const overlay = document.getElementById('successAnimation');
+            const particles = overlay.querySelector('.floating-particles');
+            const confirmationNum = document.querySelector('code').textContent;
+            
+            // Mettre à jour le numéro de confirmation
+            document.getElementById('confirmationNumber').textContent = confirmationNum;
+            
+            // Afficher l'overlay
+            overlay.classList.add('show');
+            
+            // Créer des particules flottantes
+            createFloatingParticles(particles);
+            
+            // Créer des confettis
+            createConfetti(particles);
+            
+            // Son de succès (optionnel - nécessite une interaction utilisateur)
+            playSuccessSound();
+        }
+
+        function createFloatingParticles(container) {
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 3 + 's';
+                particle.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                container.appendChild(particle);
+                
+                // Supprimer après animation
+                setTimeout(() => {
+                    if (particle.parentNode) {
+                        particle.parentNode.removeChild(particle);
+                    }
+                }, 5000);
+            }
+        }
+
+        function createConfetti(container) {
+            const colors = ['#d4af37', '#f4d03f', '#198754', '#20c997', '#ffffff'];
+            
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                confetti.style.animationDuration = (Math.random() * 1 + 2) + 's';
+                
+                // Formes aléatoires
+                if (Math.random() > 0.5) {
+                    confetti.style.borderRadius = '0';
+                    confetti.style.width = '8px';
+                    confetti.style.height = '3px';
+                }
+                
+                container.appendChild(confetti);
+                
+                // Supprimer après animation
+                setTimeout(() => {
+                    if (confetti.parentNode) {
+                        confetti.parentNode.removeChild(confetti);
+                    }
+                }, 4000);
+            }
+        }
+
+        function playSuccessSound() {
+            // Créer un son de succès simple (optionnel)
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime); // Do
+                oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.1); // Mi
+                oscillator.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.2); // Sol
+                
+                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.5);
+            } catch (e) {
+                // Fallback silencieux si l'audio n'est pas supporté
+                console.log('Audio not supported');
+            }
+        }
+    </script>
+</body>
+</html>
