@@ -95,7 +95,7 @@ class ServiceForm(forms.ModelForm):
         labels = {
             'titre': 'Titre du service',
             'description': 'Description détaillée',
-            'prix': 'Prix (€)',
+            'prix': 'Prix ($)',
             'duree_minutes': 'Durée (minutes)',
             'est_actif': 'Service actif'
         }

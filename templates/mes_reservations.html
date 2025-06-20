@@ -1,11 +1,13 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mes réservations - Elite Barbershop</title>
+    <title>Mes réservations - Riviera Barbier</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+        <link rel="icon" type="image/png" href="{% static 'img/logo.png' %}">
     <style>
         * {
             margin: 0;
@@ -541,7 +543,7 @@
                             {% if reservation.statut == 'confirmee' or reservation.statut == 'terminee' %}
                                 {{ reservation.prix_service|add:0 }}
                             {% endif %}
-                        {% endfor %}€
+                        {% endfor %}$
                     </div>
                     <div class="stat-label">Chiffre d'affaires</div>
                 </div>
@@ -594,7 +596,7 @@
                                 <td>{{ reservation.service.titre }}</td>
                                 <td>{{ reservation.date_reservation|date:"d/m/Y" }}</td>
                                 <td>{{ reservation.heure_debut|time:"H:i" }} - {{ reservation.heure_fin|time:"H:i" }}</td>
-                                <td>{{ reservation.prix_service }}€</td>
+                                <td>{{ reservation.prix_service }}$</td>
                                 <td>
                                     <span class="status-badge {{ reservation.statut }}">
                                         {{ reservation.get_statut_display }}
@@ -662,7 +664,7 @@
                             <div class="detail-item">
                                 <i class="fas fa-euro-sign"></i>
                                 <span class="detail-label">Prix :</span>
-                                <span class="detail-value">{{ reservation.prix_service }}€</span>
+                                <span class="detail-value">{{ reservation.prix_service }}$</span>
                             </div>
                         </div>
                         
@@ -713,12 +715,12 @@
             const statNumbers = document.querySelectorAll('.stat-number');
             statNumbers.forEach(stat => {
                 const text = stat.textContent;
-                const isEuro = text.includes('€');
-                const finalValue = parseFloat(text.replace('€', '')) || 0;
+                const isEuro = text.includes('$');
+                const finalValue = parseFloat(text.replace('$', '')) || 0;
                 let currentValue = 0;
                 const increment = finalValue / 30;
                 
-                stat.textContent = '0' + (isEuro ? '€' : '');
+                stat.textContent = '0' + (isEuro ? '$' : '');
                 
                 const timer = setInterval(() => {
                     currentValue += increment;
@@ -728,7 +730,7 @@
                     }
                     
                     if (isEuro) {
-                        stat.textContent = Math.floor(currentValue) + '€';
+                        stat.textContent = Math.floor(currentValue) + '$';
                     } else {
                         stat.textContent = Math.floor(currentValue);
                     }

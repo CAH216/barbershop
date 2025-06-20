@@ -61,7 +61,7 @@ class Service(models.Model):
         ordering = ['prix']
 
     def __str__(self):
-        return f"{self.titre} - {self.prix}€ ({self.barber.barbershop_name})"
+        return f"{self.titre} - {self.prix}$ ({self.barber.barbershop_name})"
 
 
 class DisponibiliteManager(models.Manager):
@@ -248,7 +248,7 @@ Vous avez une nouvelle réservation :
 {f'📞 Téléphone : {self.client.telephone}' if self.client.telephone else ''}
 
 💈 Service : {self.service.titre}
-💰 Prix : {self.prix_service}€
+💰 Prix : {self.prix_service}$
 🗓️ Date : {self.date_reservation.strftime('%d/%m/%Y')}
 ⏰ Heure : {self.heure_debut.strftime('%H:%M')} - {self.heure_fin.strftime('%H:%M')}
 

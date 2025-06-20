@@ -1,11 +1,13 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirmer votre réservation - Elite Barbershop</title>
+    <title>Confirmer votre réservation - Riviera Barbier</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+        <link rel="icon" type="image/png" href="{% static 'img/logo.png' %}">
     <style>
         * {
             margin: 0;
@@ -632,7 +634,7 @@
     <!-- Header -->
     <header class="header">
         <nav class="nav-container">
-            <a href="/" class="logo">Elite Barbershop</a>
+            <a href="/" class="logo">Riviera Barbier</a>
             <ul class="nav-menu">
                 <li><a href="/">Accueil</a></li>
                 <li><a href="/services/">Services</a></li>
@@ -687,7 +689,7 @@
                                     </tr>
                                     <tr>
                                         <td><strong>Prix :</strong></td>
-                                        <td class="text-success">{{ reservation.prix_service }}€</td>
+                                        <td class="text-success">{{ reservation.prix_service }}$</td>
                                     </tr>
                                     <tr>
                                         <td><strong>Durée :</strong></td>

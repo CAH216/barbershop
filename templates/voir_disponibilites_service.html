@@ -1,11 +1,13 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Réserver {{ service.titre }} - Elite Barbershop</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <title>Réserver {{ service.titre }} - Riviera Barbier</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/allf.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+        <link rel="icon" type="image/png" href="{% static 'img/logo.png' %}">
     <style>
         * {
             margin: 0;
@@ -548,7 +550,7 @@
                 </div>
                 
                 <div class="service-details">
-                    <div class="service-price">{{ service.prix }}€</div>
+                    <div class="service-price">{{ service.prix }}$</div>
                     <div class="service-duration">
                         <i class="fas fa-clock"></i>
                         Durée : {{ service.duree_minutes }} minutes

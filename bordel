@@ -1,0 +1,8 @@
+python manage.py shell
+
+from reservations.models import CodeSecretBarber
+CodeSecretBarber.objects.create(code="BARBER001", nom_barbershop="barberrivera132@")
+CodeSecretBarber.objects.create(code="BARBERRIVIERA6700", nom_barbershop="Riviera Barbier")
+CodeSecretBarber.objects.create(code="BARBER002", nom_barbershop="BARBER2")
+CodeSecretBarber.objects.create(code="BARBER003", nom_barbershop="BARBER3")
+CodeSecretBarber.objects.create(code="BARBER004", nom_barbershop="BARBER4")

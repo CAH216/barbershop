@@ -1,11 +1,13 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elite Barbershop - L'art de la coiffure masculine</title>
+    <title>Riviera Barbier</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{% static 'img/logo.png' %}">
     <style>
         * {
             margin: 0;
@@ -788,7 +790,7 @@
     <!-- Header -->
     <header class="header" id="header">
         <nav class="nav-container">
-            <a href="#" class="logo">Elite Barbershop</a>
+            <a href="#" class="logo">Riviera Barbier</a>
             <ul class="nav-menu">
                 <li><a href="#home">Accueil</a></li>
                 <li><a href="#about">À propos</a></li>
@@ -806,9 +808,10 @@
     <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="hero-content">
-            <h1>L'Art de la Coiffure Masculine</h1>
-            <p>Découvrez l'excellence dans chaque coupe. Nos maîtres barbiers allient tradition et modernité pour sublimer votre style.</p>
-            <a href="#services" class="cta-button">Réserver Maintenant</a>
+<h1>L'Art de la Coiffure</h1>
+<p>Découvrez l'excellence dans chaque coupe. Nos experts allient tradition et modernité pour sublimer le style de chacun, que vous soyez un homme ou une femme.</p>
+<a href="#services" class="cta-button">Réserver Maintenant</a>
+
         </div>
     </section>
 
@@ -821,10 +824,11 @@
             </div>
             <div class="about-content">
                 <div class="about-text">
-                    <h3>Excellence & Tradition</h3>
-                    <p>Chez Elite Barbershop, nous croyons que chaque homme mérite un service exceptionnel. Nos barbiers maîtres ont été formés dans les meilleures écoles et possèdent des années d'expérience.</p>
-                    <p>Nous utilisons uniquement des produits haut de gamme et des techniques traditionnelles pour vous offrir une expérience unique et mémorable.</p>
-                    <p>Notre mission est simple : vous faire ressortir confiant et élégant, avec un style qui vous ressemble.</p>
+<h3>Excellence & Tradition</h3>
+<p>Chez Riviera Barbier, nous croyons que chaque personne mérite un service exceptionnel, qu’il s’agisse d’un homme ou d’une femme. Nos barbiers maîtres ont été formés dans les meilleures écoles et possèdent des années d’expérience.</p>
+<p>Nous utilisons uniquement des produits haut de gamme et des techniques traditionnelles pour vous offrir une expérience unique et mémorable.</p>
+<p>Notre mission est simple : vous faire ressortir confiant(e) et élégant(e), avec un style qui vous ressemble.</p>
+
                 </div>
                 <div class="about-image">
                     <div style="height: 400px; background: linear-gradient(45deg, #d4af37, #333); display: flex; align-items: center; justify-content: center; color: white; font-size: 4rem; border-radius: 15px;">
@@ -859,7 +863,7 @@
                         <div class="services-preview">
                             <h6 style="color: #d4af37;">Services disponibles :</h6>
                             {% for service in barbier.services.all|slice:":3" %}
-                                <span class="service-badge">{{ service.titre }} - {{ service.prix }}€</span>
+                                <span class="service-badge">{{ service.titre }} - {{ service.prix }}$</span>
                             {% empty %}
                                 <span style="color: rgba(255,255,255,0.7); font-style: italic;">Aucun service configuré</span>
                             {% endfor %}
@@ -895,7 +899,7 @@
                     </div>
                     <h3>Coupe Classique</h3>
                     <p>Une coupe traditionnelle exécutée avec précision et finesse. Adaptée à votre morphologie et style de vie.</p>
-                    <div class="service-price">à partir de 35€</div>
+                    <div class="service-price">à partir de 35$</div>
                 </div>
                 <div class="service-card">
                     <div class="service-icon">
@@ -903,7 +907,7 @@
                     </div>
                     <h3>Coupe + Barbe</h3>
                     <p>Service complet incluant coupe et taille de barbe professionnelle. L'harmonie parfaite pour votre visage.</p>
-                    <div class="service-price">à partir de 55€</div>
+                    <div class="service-price">à partir de 55$</div>
                 </div>
                 <div class="service-card">
                     <div class="service-icon">
@@ -911,7 +915,7 @@
                     </div>
                     <h3>Rasage Traditionnel</h3>
                     <p>Rasage à l'ancienne au rasoir droit avec serviettes chaudes. Une expérience relaxante et authentique.</p>
-                    <div class="service-price">à partir de 45€</div>
+                    <div class="service-price">à partir de 45$</div>
                 </div>
                 <div class="service-card">
                     <div class="service-icon">
@@ -919,7 +923,7 @@
                     </div>
                     <h3>Service VIP</h3>
                     <p>L'expérience ultime : coupe, barbe, rasage, soins du visage et massage du cuir chevelu.</p>
-                    <div class="service-price">à partir de 85€</div>
+                    <div class="service-price">à partir de 85$</div>
                 </div>
                 <div class="service-card">
                     <div class="service-icon">
@@ -927,7 +931,7 @@
                     </div>
                     <h3>Coupe Enfant</h3>
                     <p>Coupe spécialement adaptée aux enfants dans un environnement bienveillant et ludique.</p>
-                    <div class="service-price">à partir de 25€</div>
+                    <div class="service-price">à partir de 25$</div>
                 </div>
                 <div class="service-card">
                     <div class="service-icon">
@@ -935,7 +939,7 @@
                     </div>
                     <h3>Styling</h3>
                     <p>Coiffage et styling personnalisé avec les meilleurs produits pour un look impeccable.</p>
-                    <div class="service-price">à partir de 20€</div>
+                    <div class="service-price">à partir de 20$</div>
                 </div>
             </div>
         </div>
@@ -1005,15 +1009,11 @@
                     <h3>Nos Informations</h3>
                     <div class="contact-item">
                         <i class="fas fa-map-marker-alt"></i>
-                        <span>123 Avenue des Champs-Élysées, 75008 Paris</span>
+                        <span>6700 Chem. de la Côte-des-Neiges, Montréal, QC H3S 2B2s</span>
                     </div>
                     <div class="contact-item">
                         <i class="fas fa-phone"></i>
-                        <span>01 42 25 18 50</span>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-envelope"></i>
-                        <span>contact@elitebarbershop.fr</span>
+                        <span>(514) 731-5898</span>
                     </div>
                     <div class="contact-item">
                         <i class="fas fa-clock"></i>
@@ -1040,7 +1040,7 @@
                     </div>
                     <div class="form-group">
                         <label for="phone">Téléphone</label>
-                        <input type="tel" id="phone" name="phone" placeholder="+33 1 23 45 67 89">
+                        <input type="tel" id="phone" name="phone" placeholder="(514) 731-5898">
                     </div>
                     <div class="form-group">
                         <label for="service">Service souhaité</label>
@@ -1071,7 +1071,7 @@
         <div class="container">
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 30px; text-align: left;">
                 <div>
-                    <h4 style="color: #d4af37; margin-bottom: 15px; font-family: 'Playfair Display', serif;">Elite Barbershop</h4>
+                    <h4 style="color: #d4af37; margin-bottom: 15px; font-family: 'Playfair Display', serif;">Riviera Barbier</h4>
                     <p style="opacity: 0.8; line-height: 1.6;">L'art de la coiffure masculine depuis plus de 20 ans. Excellence, tradition et modernité.</p>
                     <div style="margin-top: 15px;">
                         <a href="#" style="color: #d4af37; margin-right: 15px; font-size: 1.2rem;"><i class="fab fa-facebook"></i></a>
@@ -1086,7 +1086,6 @@
                         <a href="#services" style="color: white; text-decoration: none; opacity: 0.8; transition: opacity 0.3s;">Services</a>
                         <a href="#barbers" style="color: white; text-decoration: none; opacity: 0.8; transition: opacity 0.3s;">Nos Barbiers</a>
                         <a href="#contact" style="color: white; text-decoration: none; opacity: 0.8; transition: opacity 0.3s;">Contact</a>
-                        <a href="/inscription/" style="color: #d4af37; text-decoration: none; font-weight: 600;">Devenir Barbier</a>
                     </div>
                 </div>
                 <div>
@@ -1094,12 +1093,12 @@
                     <div style="opacity: 0.8; line-height: 1.8;">
                         <p><strong>Lundi - Samedi</strong><br>9h00 - 20h00</p>
                         <p><strong>Dimanche</strong><br>10h00 - 18h00</p>
-                        <p style="color: #d4af37; margin-top: 10px;"><i class="fas fa-phone"></i> 01 42 25 18 50</p>
+                        <p style="color: #d4af37; margin-top: 10px;"><i class="fas fa-phone"></i> (514) 731-5898</p>
                     </div>
                 </div>
             </div>
             <hr style="border: none; height: 1px; background: rgba(212, 175, 55, 0.3); margin: 30px 0;">
-            <p style="text-align: center; opacity: 0.8;">&copy; 2025 Elite Barbershop. Tous droits réservés. | Réalisé avec passion pour l'art de la coiffure masculine.</p>
+            <p style="text-align: center; opacity: 0.8;">&copy; 2025 Riviera Barbier. Tous droits réservés. | Réalisé avec passion pour l'art de la coiffure masculine.</p>
         </div>
     </footer>
 

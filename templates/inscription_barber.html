@@ -1,11 +1,13 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inscription Barbier - Elite Barbershop</title>
+    <title>Inscription Barbier - Riviera Barbier</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+        <link rel="icon" type="image/png" href="{% static 'img/logo.png' %}">
     <style>
         * {
             margin: 0;
@@ -673,7 +675,7 @@
                 '#id_prenom': { placeholder: 'Votre prénom', icon: 'fas fa-user' },
                 '#id_nom': { placeholder: 'Votre nom', icon: 'fas fa-user' },
                 '#id_email': { placeholder: 'votre.email@exemple.com', icon: 'fas fa-envelope' },
-                '#id_telephone': { placeholder: '+33 1 23 45 67 89', icon: 'fas fa-phone' },
+                '#id_telephone': { placeholder: '+1 514 000 0000', icon: 'fas fa-phone' },
                 '#id_username': { placeholder: 'nom_utilisateur', icon: 'fas fa-at' },
                 '#id_code_secret': { placeholder: 'CODE123', icon: 'fas fa-key' },
                 '#id_password1': { placeholder: 'Mot de passe sécurisé', icon: 'fas fa-lock' },
